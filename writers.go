@@ -4,6 +4,7 @@ package loggers
 import (
 	"github.com/reiver/go-oi"
 
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -22,81 +23,141 @@ type Writers struct {
 
 
 func (logger Writers) Debug(v ...interface{}) {
-	msg := fmt.Sprint(v...)
-	oi.LongWriteString(logger.DebugWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprint(&buffer, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.DebugWriter, buffer.Bytes())
 }
 
 func (logger Writers) Debugf(format string, v ...interface{}) {
-	msg := fmt.Sprintf(format, v...)
-	oi.LongWriteString(logger.DebugWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprintf(&buffer, format, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.DebugWriter, buffer.Bytes())
 }
 
 
 func (logger Writers) Error(v ...interface{}) {
-	msg := fmt.Sprint(v...)
-	oi.LongWriteString(logger.ErrorWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprint(&buffer, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.ErrorWriter, buffer.Bytes())
 }
 
 func (logger Writers) Errorf(format string, v ...interface{}) {
-	msg := fmt.Sprintf(format, v...)
-	oi.LongWriteString(logger.ErrorWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprintf(&buffer, format, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.ErrorWriter, buffer.Bytes())
 }
 
 
 func (logger Writers) Fatal(v ...interface{}) {
-	msg := fmt.Sprint(v...)
-	oi.LongWriteString(logger.FatalWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprint(&buffer, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.FatalWriter, buffer.Bytes())
 	os.Exit(1)
 }
 
 func (logger Writers) Fatalf(format string, v ...interface{}) {
-	msg := fmt.Sprintf(format, v...)
-	oi.LongWriteString(logger.FatalWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprintf(&buffer, format, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.FatalWriter, buffer.Bytes())
 	os.Exit(1)
 }
 
 
 func (logger Writers) Panic(v ...interface{}) {
+	var buffer bytes.Buffer
+
 	err := fmt.Errorf("%s", fmt.Sprint(v...))
-	oi.LongWriteString(logger.PanicWriter, err.Error())
+
+	buffer.WriteString(err.Error())
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.PanicWriter, buffer.Bytes())
 	panic(err)
 }
 
 func (logger Writers) Panicf(format string, v ...interface{}) {
+	var buffer bytes.Buffer
+
 	err := fmt.Errorf(format, v...)
-	oi.LongWriteString(logger.PanicWriter, err.Error())
+
+	buffer.WriteString(err.Error())
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.PanicWriter, buffer.Bytes())
 	panic(err)
 }
 
 
 func (logger Writers) Print(v ...interface{}) {
-	msg := fmt.Sprint(v...)
-	oi.LongWriteString(logger.PrintWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprint(&buffer, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.PrintWriter, buffer.Bytes())
 }
 
 func (logger Writers) Printf(format string, v ...interface{}) {
-	msg := fmt.Sprintf(format, v...)
-	oi.LongWriteString(logger.PrintWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprintf(&buffer, format, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.PrintWriter, buffer.Bytes())
 }
 
 
 func (logger Writers) Trace(v ...interface{}) {
-	msg := fmt.Sprint(v...)
-	oi.LongWriteString(logger.TraceWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprint(&buffer, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.TraceWriter, buffer.Bytes())
 }
 
 func (logger Writers) Tracef(format string, v ...interface{}) {
-	msg := fmt.Sprintf(format, v...)
-	oi.LongWriteString(logger.TraceWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprintf(&buffer, format, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.TraceWriter, buffer.Bytes())
 }
 
 
 func (logger Writers) Warn(v ...interface{}) {
-	msg := fmt.Sprint(v...)
-	oi.LongWriteString(logger.WarnWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprint(&buffer, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.WarnWriter, buffer.Bytes())
 }
 
 func (logger Writers) Warnf(format string, v ...interface{}) {
-	msg := fmt.Sprintf(format, v...)
-	oi.LongWriteString(logger.WarnWriter, msg)
+	var buffer bytes.Buffer
+
+	fmt.Fprintf(&buffer, format, v...)
+	buffer.WriteByte('\n')
+
+	oi.LongWrite(logger.WarnWriter, buffer.Bytes())
 }
